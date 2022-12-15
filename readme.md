@@ -1,3 +1,6 @@
+This is a simplified version of the example found at: https://github.com/domoinc/domo-node-embed-filters
+
+
 Setup steps:
 
 1. Copy the repository
