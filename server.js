@@ -13,7 +13,7 @@ app.get('/test', function (req, res) {
 })
 
 function generateAccessToken(res) {
-   console.log("generating access token..")
+   console.log("generating access token...")
 
    var config = {
       method: 'get',
