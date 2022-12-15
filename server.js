@@ -19,7 +19,7 @@ function generateAccessToken(res) {
       method: 'get',
       url: 'https://api.domo.com/oauth/token?grant_type=client_credentials&scope=data workflow audit buzz user account dashboard',
       headers: { 
-        'Authorization': 'Basic YTg3NzQwYTctMzU4Yy00NmQzLTkxZWEtNDFjODY4NWQ2ZWYzOjlhY2YzYjJkN2FiODcyOGE2ZTg1Y2MxZTVlMTAwYWUwYTMyOGVlNTJhOTYwMDk4YzA5ZjMwNmU5NjY5MTI3NzI='
+        'Authorization': 'Basic duyfoiduyfiaouyfdiaoufhdlkjafdhskljfhasdfidsaufyaosidfuysaoifuysdaoi' //ENTER YOUR BASE64 client:secret here
       }
     };
     
