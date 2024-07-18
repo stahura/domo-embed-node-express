@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.614.0",
+    "aws-sdk": "^2.1659.0",
     "axios": "^1.2.1",
     "body-parser": "^1.20.1",
     "cookie-parser": "^1.4.6",
