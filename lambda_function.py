@@ -87,7 +87,7 @@ def return_response():
 
 
 def handler(event, context):
-    path = event.get('path', '/')
+    path = event['requestContext']['http']['path']
 
     if path == '/test':
         try:
@@ -106,6 +106,11 @@ def handler(event, context):
                 'statusCode': 500,
                 'body': json.dumps('Error initializing secret: {}'.format(str(e)))
             }
+    elif path == '/test2':
+        return {
+            'statusCode': 200,
+            'body': json.dumps('connected to server - test2')
+        }
     elif path == '/':
         return {
             'statusCode': 200,
@@ -114,5 +119,5 @@ def handler(event, context):
     else:
         return {
             'statusCode': 404,
-            'body': json.dumps('Not Found')
+            'body': json.dumps('400 - Not Found')
         }
