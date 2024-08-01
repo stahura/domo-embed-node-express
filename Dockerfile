@@ -1,20 +1,13 @@
-FROM python:3.11-buster
+FROM public.ecr.aws/lambda/python:3.12
 
-RUN pip install poetry==1.4.2
+# Copy requirements.txt
+COPY requirements.txt ${LAMBDA_TASK_ROOT}
 
-ENV POETRY_NO_INTERACTION=1 \
-    POETRY_VIRTUALENVS_IN_PROJECT=1 \
-    POETRY_VIRTUALENVS_CREATE=1 \
-    POETRY_CACHE_DIR=/tmp/poetry_cache
+# Install the specified packages
+RUN pip install -r requirements.txt
 
-WORKDIR /app
+# Copy function code
+COPY lambda_function.py ${LAMBDA_TASK_ROOT}
 
-COPY pyproject.toml poetry.lock ./
-RUN touch README.md
-
-RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
-# Copy the rest of the application files
-COPY . /app
-
-# Command to run the application
-CMD ["lambda_function.lambda_handler"]
+# Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
+CMD ["lambda_function.handler"]

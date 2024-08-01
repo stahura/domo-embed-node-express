@@ -5,6 +5,7 @@ import requests
 # AWS configuration
 secrets_client = boto3.client('secretsmanager', region_name='us-east-2')
 
+
 # Function to retrieve the secret
 def get_secret(key):
     try:
@@ -15,13 +16,16 @@ def get_secret(key):
         print(e)
         raise e
 
+
 access_token = ""
 embed_token = ""
 secret_name = "domo-embed-secret"
 
+
 def init():
     secret = get_secret(secret_name)
     return secret
+
 
 def generate_access_token(secret):
     global access_token
@@ -37,6 +41,7 @@ def generate_access_token(secret):
         generate_embed_token()
     else:
         print(response.json())
+
 
 def generate_embed_token():
     global embed_token
@@ -65,6 +70,7 @@ def generate_embed_token():
     else:
         print(response.json())
 
+
 def return_response():
     return """
     <html>
@@ -79,7 +85,8 @@ def return_response():
     </html>
     """.format(embed_token)
 
-def lambda_handler(event, context):
+
+def handler(event, context):
     path = event.get('path', '/')
 
     if path == '/test':
