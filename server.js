@@ -1,8 +1,23 @@
+require('dotenv').config(); //pull from .env file
 var express = require('express');
 var app = express();
 const axios = require('axios');
-let accessToken = ""
-let embedToken = ""
+
+
+//modocorp tokens
+let accessToken = process.env.accessToken || "";
+let embedToken = process.env.embedToken || "";
+const tokenString = `${accessToken}:${embedToken}`
+const base64Token = btoa(tokenString)
+
+
+//const embedID = "gp9xk"
+//const embedID = "16pyZ" //APP GENERATOR
+const embedID = "6Wx9O"
+const cardUrlAuth = "https://api.domo.com/v1/cards/embed/auth"
+const cardEmbed = `https://public.domo.com/cards/${embedID}`
+const dashboardUrlAuth = "https://api.domo.com/v1/stories/embed/auth"
+const dashboardEmbed = `https://public.domo.com/embed/pages/${embedID}?appData=riley`
 
 app.get('/', function (req, res) {
   console.log('connected to server')
@@ -19,7 +34,7 @@ function generateAccessToken(res) {
       method: 'get',
       url: 'https://api.domo.com/oauth/token?grant_type=client_credentials&scope=data workflow audit buzz user account dashboard',
       headers: { 
-        'Authorization': 'Basic duyfoiduyfiaouyfdiaoufhdlkjafdhskljfhasdfidsaufyaosidfuysaoifuysdaoi' //ENTER YOUR BASE64 client:secret here
+        'Authorization': `Basic ${base64Token}` //ENTER YOUR BASE64 client:secret here
       }
     };
     
@@ -40,7 +55,7 @@ function generateEmbedToken(res) {
       "sessionLength": 1440,
       "authorizations": [
         {
-          "token":"Wn7lv",
+          "token":embedID,
           "permissions": [
             "READ",
             "FILTER",
@@ -53,7 +68,7 @@ function generateEmbedToken(res) {
     
     var config = {
       method: 'post',
-      url: 'https://api.domo.com/v1/cards/embed/auth',
+      url: dashboardUrlAuth,
       headers: { 
         'Accept': 'application/json', 
         'Content-Type': 'application/json', 
@@ -68,7 +83,7 @@ function generateEmbedToken(res) {
       res.send(`
         <html>
         <body>
-          <form id="form" action="https://public.domo.com/cards/Wn7lv?referenceId=1" method="post">
+          <form id="form" action="${dashboardEmbed}" method="post">
             <input type="hidden" name="embedToken" value='${embedToken}'>
           </form>
           <script>
